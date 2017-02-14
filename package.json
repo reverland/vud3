@@ -3,13 +3,14 @@
   "description": "declaritive d3 components in vue.js",
   "version": "0.0.1",
   "author": "Yuyang Liu <yuyang.liu@chaitin.com>",
-  "main": "dist/build.js",
+  "main": "dist/vud3.min.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
     "d3-shape": "^1.0.4",
+    "lodash": "^4.17.4",
     "vue": "^2.1.0"
   },
   "devDependencies": {
