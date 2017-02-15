@@ -22,6 +22,12 @@
 window.$docsify = {}
 var id = 0
 window.$docsify = {
+  name: 'vud3',
+  maxLevel: 4,
+  subMaxLevel: 2,
+  auto2top: true,
+  loadSidebar: true,
+  repo: 'reverland/vud3',
   markdown: {
     renderer: {
       code: function (code, lang) {
@@ -39,9 +45,6 @@ window.$docsify = {
 }
 </script>
 <script src="//unpkg.com/vuep/dist/vuep.min.js"></script>
-<script
-  src="//unpkg.com/docsify/lib/docsify.min.js"
-  data-name="vud3"
-  data-router>
+<script src="//unpkg.com/docsify/lib/docsify.min.js">
 </script>
 </html>
