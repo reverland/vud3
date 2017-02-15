@@ -5,12 +5,19 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
+    publicPath: '/dist/',
     library: 'vud3',
     libraryTarget: 'umd',
     filename: 'vud3.min.js'
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        enforce: 'pre',
+        use: [{loader: 'eslint-loader', options: {rules: {semi: 0}}}],
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -20,7 +27,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: false
   },
   performance: {
     hints: false
