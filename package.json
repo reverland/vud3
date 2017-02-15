@@ -1,7 +1,7 @@
 {
   "name": "vud3",
   "description": "writing declarative d3 components in vue.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Yuyang Liu <sa@linuxer.me>",
   "main": "dist/vud3.min.js",
   "scripts": {
