@@ -2,13 +2,15 @@
 import Surface from './container/Surface'
 import Layer from './container/Layer'
 
-// Container
-import Curve from './shape/Curve'
+// shape
+import Line from './shape/Line'
+import Area from './shape/Area'
 
 let components = [
   Surface,
   Layer,
-  Curve
+  Line,
+  Area
 ]
 
 let install = function (Vue) {
@@ -19,10 +21,14 @@ let install = function (Vue) {
 
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
+  console.log('vud3 installed succesfully!')
+} else {
+  console.warn('you must use vue')
 }
 
 export {
   Surface,
   Layer,
-  Curve
+  Line,
+  Area
 }

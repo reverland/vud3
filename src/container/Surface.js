@@ -1,22 +1,22 @@
 import _ from 'lodash'
 
 export default {
-  name: 'Surface'
-  , props: {
+  name: 'Surface',
+  props: {
     width: {
-      type: Number
-      , required: true
-    }
-    , height: {
-      type: Number
-      , required: true
-    }
-    , viewBox: {
-      type: Object
-      , default () {
+      type: Number,
+      required: true
+    },
+    height: {
+      type: Number,
+      required: true
+    },
+    viewBox: {
+      type: Object,
+      default () {
         return { width: this.width, height: this.height, x: 0, y: 0 }
-      }
-      , validator (v) {
+      },
+      validator (v) {
         return (
           _.isFinite(v.x) &&
           _.isFinite(v.y) &&
@@ -24,18 +24,20 @@ export default {
           _.isFinite(v.height)
         )
       }
-    }
-    , style: {
+    },
+    style: {
       type: Object
     }
-  }
-  , render (h) {
+  },
+  render (h) {
     const children = this.$slots.default
-    const attrs = this.$vnode.data.attrs
+    const attrs = this.$vnode.data.attrs || {}
+    const props = this.$vnode.data.props || {}
     const viewBox = this.viewBox
     return (
       <svg
         {...attrs}
+        {...props}
         width={this.width}
         height={this.height}
         style={this.style}
