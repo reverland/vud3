@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { area as shapeArea } from 'd3-shape'
-import getCurveFunction from '../utils/CurveFactory'
+import getCurveFunction from '../utils/curveFactory'
 
 export default {
   name: 'VArea',

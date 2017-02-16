@@ -47,3 +47,26 @@ export default {
   }
 }
 ```
+
+## Arc
+
+```jsx
+/* vuep */
+export default {
+  render (h) {
+    let data ={
+      innerRadius: 0,
+      outerRadius: 40,
+      startAngle: 0,
+      endAngle: Math.PI / 2
+    }
+    return (
+      <surface width={100} height={100}>
+        <layer transform="translate(50, 50)">
+          <v-arc data={data}/>
+        </layer>
+      </surface>
+    )
+  }
+}
+```
