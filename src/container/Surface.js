@@ -1,51 +1,53 @@
-import _ from 'lodash'
+import optimizedResize from '../utils/optimizedResize'
 
 export default {
   name: 'Surface',
-  props: {
-    width: {
-      type: Number,
-      required: true
-    },
-    height: {
-      type: Number,
-      required: true
-    },
-    viewBox: {
-      type: Object,
-      default () {
-        return { width: this.width, height: this.height, x: 0, y: 0 }
-      },
-      validator (v) {
-        return (
-          _.isFinite(v.x) &&
-          _.isFinite(v.y) &&
-          _.isFinite(v.width) &&
-          _.isFinite(v.height)
-        )
-      }
-    },
-    style: {
-      type: Object
+  props: ['width', 'height'],
+  data () {
+    return {
+      optId: null,
+      width: 0,
+      realWidth: 0
     }
+  },
+  methods: {
+    updateSize () {
+      if (this.width === 'auto') {
+        const computedWidth = window.getComputedStyle(this.$refs.wrapper).width
+        let width = parseInt(computedWidth)
+        this.realWidth = width
+      } else {
+        this.realWidth = this.width
+      }
+    }
+  },
+  mounted () {
+    this.updateSize()
+    this.$emit('resize', this.realWidth)
+  },
+  created () {
+    this.optId = optimizedResize.add(() => {
+      this.updateSize()
+    }, () => {
+      this.$emit('resize', this.realWidth)
+    })
+  },
+  destroyed () {
+    optimizedResize.remove(this.optId)
   },
   render (h) {
     const children = this.$slots.default
-    const attrs = this.$vnode.data.attrs || {}
-    const props = this.$vnode.data.props || {}
-    const viewBox = this.viewBox
-    return (
-      <svg
-        {...attrs}
-        {...props}
-        width={this.width}
+    return h(
+      'div',
+      {ref: 'wrapper'},
+      [(<svg
+        width={this.realWidth}
         height={this.height}
-        style={this.style}
-        viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
+        viewBox={`0 0 ${this.realWidth} ${this.height}`}
         version="1.1"
-      >
+        >
         { children }
-      </svg>
+      </svg>)]
     )
   }
 }

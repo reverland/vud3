@@ -1,16 +1,9 @@
 export default {
   name: 'Layer',
-  render (h) {
-    const children = this.$slots.default
-    const attrs = this.$vnode.data.attrs || {}
-    const props = this.$vnode.data.props || {}
-    return (
-      <g
-        {...attrs}
-        {...props}
-      >
-        { children }
-      </g>
-    )
+  functional: true,
+  render (h, context) {
+    const children = context.children
+    const data = context.data
+    return h('g', data, children)
   }
 }
