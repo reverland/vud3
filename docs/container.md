@@ -1,6 +1,6 @@
 # Container
 
-- Surface(`svg`)
+- Surface(`svg`) with resize event.
 - Layer(`g`)
 
 ## Surface
