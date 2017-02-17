@@ -1,5 +1,5 @@
 import { line as shapeLine } from 'd3-shape'
-import getCurveFunction from '../utils/CurveFactory'
+import getCurveFunction from '../utils/curveFactory'
 
 export default {
   name: 'VLine',

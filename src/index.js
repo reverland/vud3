@@ -5,12 +5,14 @@ import Layer from './container/Layer'
 // shape
 import Line from './shape/Line'
 import Area from './shape/Area'
+import Arc from './shape/Arc'
 
 let components = [
   Surface,
   Layer,
   Line,
-  Area
+  Area,
+  Arc
 ]
 
 let install = function (Vue) {
@@ -33,5 +35,6 @@ export {
   Surface,
   Layer,
   Line,
-  Area
+  Area,
+  Arc
 }
