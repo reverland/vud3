@@ -7,12 +7,16 @@ import Line from './shape/Line'
 import Area from './shape/Area'
 import Arc from './shape/Arc'
 
+// test
+import Earth from '../demo/Earth'
+
 let components = [
   Surface,
   Layer,
   Line,
   Area,
-  Arc
+  Arc,
+  Earth
 ]
 
 let install = function (Vue) {
