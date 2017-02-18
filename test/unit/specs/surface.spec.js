@@ -1,16 +1,16 @@
-import Vue from 'vue'
 import Surface from 'src/container/Surface'
+import { triggerEvent, destroyVM, createVue } from '../utils'
 
 describe('surface', () => {
   let vm
 
   afterEach(() => {
     vm.$destroy()
-    vm && vm.$el && (vm.$el.innerHTML = '')
+    destroyVM(vm)
   })
 
   it('should render correct contents', (done) => {
-    vm = new Vue({
+    vm = createVue({
       components: {
         Surface
       },
@@ -21,7 +21,7 @@ describe('surface', () => {
           </surface>
         )
       }
-    }).$mount('body')
+    })
 
     vm.$nextTick(_ => {
       expect(vm.$el.innerHTML)
@@ -32,7 +32,7 @@ describe('surface', () => {
 
   it('should listen to resize event when no width', (done) => {
     // TODO: test for window.resize
-    vm = new Vue({
+    vm = createVue({
       components: {
         Surface
       },
@@ -48,18 +48,20 @@ describe('surface', () => {
       },
       render (h) {
         return (
-          <surface ref="svg" height={100} onResize={this.resize}>
+          <surface ref="wrapper" height={100} onResize={this.resize}>
             <rect width={50} height={80} fill={'yellow'}/>
           </surface>
         )
       }
-    }).$mount('body')
-
-    // window.resizeTo(400, 400) // can not mock resize event?
-    vm.$nextTick(_ => {
-      expect(vm.$el.innerHTML)
-        .to.equal('<svg width="150" height="100" viewBox="0 0 150 100" version="1.1"><rect width="50" height="80" fill="yellow"></rect></svg>')
-      done()
     })
+
+    let wrapper = vm.$refs.wrapper
+    wrapper.$el.style.width = '600px'
+    triggerEvent(window, 'resize') // window.dispatchEvent(new window.Event('resize'));
+    setTimeout(_ => {
+      expect(wrapper.$el.innerHTML)
+        .to.equal('<svg width="600" height="100" viewBox="0 0 600 100" version="1.1"><rect width="50" height="80" fill="yellow"></rect></svg>')
+      done()
+    }, 300) // trigger some time later
   })
 })

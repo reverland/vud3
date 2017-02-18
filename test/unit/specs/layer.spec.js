@@ -1,11 +1,16 @@
-import Vue from 'vue'
 import Layer from 'src/container/Layer'
+import { destroyVM, createVue } from '../utils'
 
 describe('layer', () => {
   let vm
 
+  afterEach(() => {
+    vm.$destroy()
+    destroyVM(vm)
+  })
+
   it('should render correct contents', () => {
-    vm = new Vue({
+    vm = createVue({
       components: {
         Layer
       },
@@ -20,7 +25,7 @@ describe('layer', () => {
           </div>
         )
       }
-    }).$mount()
+    })
     expect(vm.$el.innerHTML)
       .to.equal('<svg width="100" height="100"><g><rect width="50" height="80" fill="yellow"></rect></g></svg>')
   })
