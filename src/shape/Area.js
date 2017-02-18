@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { area as shapeArea } from 'd3-shape'
-import getCurveFunction from '../utils/curveFactory'
+import { curveNames, getCurveFunction } from '../utils/curveFactory'
 
 export default {
   name: 'VArea',
@@ -9,12 +9,7 @@ export default {
       type: String,
       default: 'linear',
       validator (value) {
-        return [
-          'basis', 'basisClosed', 'basisOpen', 'linear', 'linearClosed', 'natural',
-          'monotoneX', 'monotoneY', 'step', 'stepBefore', 'stepAfter',
-          'bundle', 'catmullRom', 'catmullRomOpen', 'catmullRomClosed',
-          'cardinal', 'cardinalOpen', 'cardinalClosed'
-        ].indexOf(value) >= 0
+        return curveNames.indexOf(value) >= 0
       }
     },
     x: {

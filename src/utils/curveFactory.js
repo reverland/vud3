@@ -61,4 +61,14 @@ let getCurveFunction = function (curve, args) {
   return curveFunction
 }
 
-export default getCurveFunction
+const curveNames = [
+  'basis', 'basisClosed', 'basisOpen', 'linear', 'linearClosed', 'natural',
+  'monotoneX', 'monotoneY', 'step', 'stepBefore', 'stepAfter',
+  'bundle', 'catmullRom', 'catmullRomOpen', 'catmullRomClosed',
+  'cardinal', 'cardinalOpen', 'cardinalClosed'
+]
+
+export {
+  getCurveFunction,
+  curveNames
+}
