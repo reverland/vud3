@@ -2,5 +2,10 @@
   "presets": [
     ["es2015", { "modules": false }]
   ],
-  "plugins": ["transform-vue-jsx"]
+  "plugins": ["transform-vue-jsx"],
+  "env": {
+    "test": {
+      "plugins": [ "istanbul" ]
+    }
+  }
 }

@@ -2,21 +2,10 @@
 var optimizedResize = (function () {
   const callbacks = []
   let running = false
-  let timer = 0
-  let id = 0
 
   // fired on resize event
   function resize () {
     // hold the update callback until resize end
-    if (timer) {
-      window.clearTimeout(timer)
-      timer = 0
-    }
-
-    timer = window.setTimeout(() => {
-      runUpdateCallbacks()
-    }, 300)
-
     if (!running) {
       running = true
 
@@ -30,44 +19,27 @@ var optimizedResize = (function () {
 
   // run the actual callbacks
   function runCallbacks () {
-    callbacks.forEach(function (item) {
-      item && item.callback && item.callback()
+    callbacks.forEach(function (callback) {
+      callback()
     })
 
     running = false
   }
 
-  // run the actual update callbacks
-  function runUpdateCallbacks () {
-    callbacks.forEach(function (item) {
-      item && item.updateCallback && item.updateCallback()
-    })
-  }
-
   // adds callback to loop
-  function addCallback (callback, updateCallback) {
-    const optId = ++id
-    callbacks.push({
-      callback,
-      updateCallback,
-      id: optId
-    })
-    return optId
+  function addCallback (callback) {
+    if (callback) {
+      callbacks.push(callback)
+    }
   }
 
   return {
     // public method to add additional callback and update callback
-    add: function (callback, updateCallback) {
+    add: function (callback) {
       if (!callbacks.length) {
         window.addEventListener('resize', resize)
       }
-      return addCallback(callback, updateCallback)
-    },
-    remove (id) {
-      const idx = callbacks.findIndex(x => x.id === id)
-      if (idx > -1) {
-        callbacks.splice(idx, 1)
-      }
+      return addCallback(callback)
     }
   }
 }())

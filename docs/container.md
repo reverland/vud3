@@ -45,7 +45,6 @@ export default {
   render (h) {
     return (
       <surface
-        width={'auto'}
         height={100}
         onResize={this.update}
         nativeOnClick={this.change}>

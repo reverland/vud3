@@ -2,38 +2,37 @@ import optimizedResize from '../utils/optimizedResize'
 
 export default {
   name: 'Surface',
-  props: ['width', 'height'],
+  props: {
+    width: {
+      default: 0
+    },
+    height: {
+      default: 100
+    }
+  },
   data () {
     return {
       optId: null,
-      width: 0,
       realWidth: 0
     }
   },
   methods: {
     updateSize () {
-      if (this.width === 'auto') {
-        const computedWidth = window.getComputedStyle(this.$refs.wrapper).width
+      if (parseInt(this.width) <= 0) {
+        const computedWidth = window.getComputedStyle(this.$refs.wrapper).width || 150
         let width = parseInt(computedWidth)
         this.realWidth = width
       } else {
         this.realWidth = this.width
       }
+      this.$emit('resize', this.realWidth)
     }
   },
   mounted () {
     this.updateSize()
-    this.$emit('resize', this.realWidth)
   },
   created () {
-    this.optId = optimizedResize.add(() => {
-      this.updateSize()
-    }, () => {
-      this.$emit('resize', this.realWidth)
-    })
-  },
-  destroyed () {
-    optimizedResize.remove(this.optId)
+    optimizedResize.add(this.updateSize)
   },
   render (h) {
     const children = this.$slots.default
