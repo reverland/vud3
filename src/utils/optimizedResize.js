@@ -9,11 +9,7 @@ var optimizedResize = (function () {
     if (!running) {
       running = true
 
-      if (window.requestAnimationFrame) {
-        window.requestAnimationFrame(runCallbacks)
-      } else {
-        setTimeout(runCallbacks, 66)
-      }
+      window.requestAnimationFrame ? window.requestAnimationFrame(runCallbacks) : setTimeout(runCallbacks, 66)
     }
   }
 
