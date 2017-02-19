@@ -1,4 +1,5 @@
 import { arc as shapeArc } from 'd3-shape'
+import _ from 'lodash'
 
 let props = [
   'innerRadius',
@@ -22,7 +23,7 @@ export default {
     getPath () {
       let arcFunction = this.arc
       props.forEach(p => {
-        if (this[p]) {
+        if (!_.isUndefined(this[p]) && arcFunction[p]) {
           arcFunction = arcFunction[p](this[p])
         }
       })

@@ -6,13 +6,15 @@ import Layer from './container/Layer'
 import Line from './shape/Line'
 import Area from './shape/Area'
 import Arc from './shape/Arc'
+import Pie from './shape/Pie'
 
 let components = [
   Surface,
   Layer,
   Line,
   Area,
-  Arc
+  Arc,
+  Pie
 ]
 
 let install = function (Vue) {
@@ -36,5 +38,6 @@ export {
   Layer,
   Line,
   Area,
-  Arc
+  Arc,
+  Pie
 }

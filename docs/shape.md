@@ -70,3 +70,22 @@ export default {
   }
 }
 ```
+
+## Pie
+
+Pie or Donut
+
+```jsx
+/* vuep */
+export default {
+  render (h) {
+    return (
+      <surface width={100} height={100}>
+        <layer transform="translate(50,50)">
+          <v-pie padAngle={0.06} data={[1,2,3,4]} outerRadius={p => 10 + p.value * 10} innerRadius={8} colors={['red', 'yellow', 'blue', 'green']}/>
+        </layer>
+      </surface>
+    )
+  }
+}
+```
