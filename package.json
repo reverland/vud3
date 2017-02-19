@@ -3,6 +3,11 @@
   "description": "writing declarative d3 components in vue.js",
   "version": "0.0.6",
   "author": "Yuyang Liu <sa@linuxer.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reverland/vud3.git"
+  },
+  "homepage": "https://reverland.github.io/vud3/",
   "main": "dist/vud3.min.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
@@ -12,11 +17,11 @@
   },
   "dependencies": {
     "d3-shape": "^1.0.4",
-    "function-bind": "^1.1.0",
     "lodash": "^4.17.4",
     "vue": "^2.1.0"
   },
   "devDependencies": {
+    "function-bind": "^1.1.0",
     "babel-core": "^6.0.0",
     "babel-eslint": "^7.1.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
