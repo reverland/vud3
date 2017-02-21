@@ -45,7 +45,7 @@ describe('line', () => {
         )
       }
     })
-    expect(vm.$refs.line.$el.getAttribute('d'))
+    expect(vm.$el.querySelector('path').getAttribute('d'))
       .to.equal('M0,2C0,2,13.953410040771484,7.49048330022003,20,10C66.20003508581078,29.1744041451515,50,40,50,40')
   })
 
@@ -65,7 +65,7 @@ describe('line', () => {
         )
       }
     })
-    expect(vm.$el.innerHTML)
-      .to.equal('<svg><path d="M0,2L20,10L50,40" fill="none" stroke="blue"></path></svg>')
+    expect(vm.$el.querySelector('path').getAttribute('d'))
+      .to.equal('M0,2L20,10L50,40')
   })
 })

@@ -21,7 +21,6 @@ describe('area', () => {
           <div>
             <svg>
               <v-area
-                ref="area"
                 x={p => p.x}
                 y1={p => p.y}
                 data={data}/>
@@ -30,7 +29,7 @@ describe('area', () => {
         )
       }
     })
-    expect(vm.$refs.area.$el.getAttribute('d'))
+    expect(vm.$el.querySelector('path').getAttribute('d'))
       .to.equal(area().x(p => p.x).y1(p => p.y)(data))
   })
 
@@ -44,7 +43,6 @@ describe('area', () => {
           <div>
             <svg>
               <v-area
-                ref="area"
                 x={p => p.x}
                 y1={p => p.y}
                 y0={p => p.y * 2}
@@ -54,7 +52,7 @@ describe('area', () => {
         )
       }
     })
-    expect(vm.$refs.area.$el.getAttribute('d'))
+    expect(vm.$el.querySelector('path').getAttribute('d'))
       .to.equal(area().x(p => p.x).y0(p => p.y * 2).y1(p => p.y)(data))
   })
 
@@ -68,7 +66,6 @@ describe('area', () => {
           <div>
             <svg>
               <v-area
-                ref="area"
                 x0={p => 0}
                 x1={p => p.x}
                 y={p => p.y}
@@ -78,7 +75,7 @@ describe('area', () => {
         )
       }
     })
-    expect(vm.$refs.area.$el.getAttribute('d'))
+    expect(vm.$el.querySelector('path').getAttribute('d'))
       .to.equal(area().x0(p => 0).x1(p => p.x).y(p => p.y)(data))
   })
 
@@ -92,7 +89,6 @@ describe('area', () => {
           <div>
             <svg>
               <v-area
-                ref="area"
                 x0={p => 0}
                 x1={p => p.x}
                 y={p => p.y}
@@ -105,11 +101,12 @@ describe('area', () => {
       }
     })
 
-    expect(vm.$refs.area.$el.getAttribute('d'))
+    let path = vm.$el.querySelector('path')
+    expect(path.getAttribute('d'))
       .to.equal(area().x0(p => 0).x1(p => p.x).y(p => p.y)(data))
-    expect(vm.$refs.area.$el.getAttribute('fill'))
+    expect(path.getAttribute('fill'))
       .to.equal('yellow')
-    expect(vm.$refs.area.$el.getAttribute('stroke'))
+    expect(path.getAttribute('stroke'))
       .to.equal('blue')
   })
 
@@ -123,7 +120,6 @@ describe('area', () => {
           <div>
             <svg>
               <v-area
-                ref="area1"
                 curve="catmullRom"
                 curveArgs={{alpha: 3}}
                 x0={p => 0}
@@ -131,7 +127,6 @@ describe('area', () => {
                 y={p => p.y}
                 data={data}/>
               <v-area
-                ref="area2"
                 curve="monotoneX"
                 x0={p => 0}
                 x1={p => p.x}
@@ -143,9 +138,9 @@ describe('area', () => {
       }
     })
 
-    expect(vm.$refs.area1.$el.getAttribute('d'))
+    expect(vm.$el.querySelectorAll('path')[0].getAttribute('d'))
       .to.equal(area().curve(curveCatmullRom.alpha(3)).y(p => p.y).x1(p => p.x).x0(p => 0)(data))
-    expect(vm.$refs.area2.$el.getAttribute('d'))
+    expect(vm.$el.querySelectorAll('path')[1].getAttribute('d'))
       .to.equal(area().curve(curveMonotoneX).y(p => p.y).x1(p => p.x).x0(p => 0)(data))
   })
 })

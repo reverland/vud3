@@ -25,13 +25,13 @@ describe('arc', () => {
         return (
           <div>
             <svg>
-              <v-arc ref="arc" data={data}/>
+              <v-arc data={data}/>
             </svg>
           </div>
         )
       }
     })
-    expect(vm.$refs.arc.$el.getAttribute('d'))
+    expect(vm.$el.querySelector('path').getAttribute('d'))
       .to.equal(arc()(data))
   })
 
@@ -45,7 +45,6 @@ describe('arc', () => {
           <div>
             <svg>
               <v-arc
-                ref="arc"
                 innerRadius={30}
                 outerRadius={p => p.outerRadius * 2}
                 cornerRadius={6}
@@ -55,7 +54,7 @@ describe('arc', () => {
         )
       }
     })
-    expect(vm.$refs.arc.$el.getAttribute('d'))
+    expect(vm.$el.querySelector('path').getAttribute('d'))
       .to.equal(arc().outerRadius(p => p.outerRadius * 2).innerRadius(30).cornerRadius(6)(data))
   })
 })
