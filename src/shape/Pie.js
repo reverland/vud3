@@ -2,7 +2,10 @@ import VArc from 'src/shape/Arc'
 import { pie } from 'd3-shape'
 import _ from 'lodash'
 
-const props = [
+// why I not implement this component as functional component ?
+// for user have to register both pie and arc in the parent component for this compo to work.
+
+const propNames = [
   'value',
   'sort',
   'sortValues',
@@ -32,36 +35,32 @@ export default {
     colors: {},
     args: {}
   },
-  methods: {
-    getData (data) {
-      let pieFunction = pie()
-      props.forEach(p => {
-        if (!_.isUndefined(this[p]) && pieFunction[p]) {
-          pieFunction = pieFunction[p](this[p])
-        }
-      })
-      return pieFunction(data)
-    }
-  },
   render (h) {
-    const data = this.getData(this.data)
-    const innerRadius = this.innerRadius
-    const outerRadius = this.outerRadius
-    const cornerRadius = this.cornerRadius
-    const colors = this.colors
-    const args = this.args
+    let props = this  // black magic here
+    const arcs = getData(props)
+    const colors = props.colors
+    const {
+      innerRadius,
+      outerRadius,
+      cornerRadius,
+      args
+    } = props
+    const newProps = {
+      innerRadius,
+      outerRadius,
+      cornerRadius,
+      args
+    }
+
     return (
       <layer>
         {
-          data.map((d, i) => {
+          arcs.map((d, i) => {
             return (
               <v-arc
-                innerRadius={innerRadius}
-                outerRadius={outerRadius}
-                cornerRadius={cornerRadius}
+                {...{props: newProps}}
                 data={d}
                 fill={_.isFunction(colors) ? colors(d, i) : colors[i]}
-                args={args}
               />
             )
           })
@@ -69,4 +68,14 @@ export default {
       </layer>
     )
   }
+}
+
+function getData (props) {
+  let pieFunction = pie()
+  propNames.forEach(p => {
+    if (!_.isUndefined(props[p]) && pieFunction[p]) {
+      pieFunction = pieFunction[p](props[p])
+    }
+  })
+  return pieFunction(props.data)
 }

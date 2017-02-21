@@ -4,6 +4,7 @@ import { curveNames, getCurveFunction } from '../utils/curveFactory'
 
 export default {
   name: 'VArea',
+  functional: true,
   props: {
     curve: {
       type: String,
@@ -38,31 +39,29 @@ export default {
       required: false
     }
   },
-  methods: {
-    getPath () {
-      let lineFunction = shapeArea()
-      let curveFunction = getCurveFunction(this.curve, this.curveArgs)
-
-      let fNames = ['x', 'x0', 'x1', 'y', 'y0', 'y1']
-      fNames.filter(fName => _.isFunction(this[fName])).forEach(fName => {
-        lineFunction = lineFunction[fName](this[fName])
-      })
-
-      lineFunction.curve(curveFunction)
-
-      return lineFunction(this.data)
-    }
-  },
-  render (h) {
-    const attrs = this.$vnode.data.attrs || {}
-    const props = this.$vnode.data.props || {}
-    const path = this.getPath()
+  render (h, context) {
+    let props = context.props || {}
+    const data = context.data
+    const path = getPath(props)
     return (
       <path
-        {...attrs}
-        {...props}
+        {...data}
         d={ path }
       />
     )
   }
+}
+
+function getPath (props) {
+  let lineFunction = shapeArea()
+  let curveFunction = getCurveFunction(props.curve, props.curveArgs)
+
+  let fNames = ['x', 'x0', 'x1', 'y', 'y0', 'y1']
+  fNames.filter(fName => _.isFunction(props[fName])).forEach(fName => {
+    lineFunction = lineFunction[fName](props[fName])
+  })
+
+  lineFunction.curve(curveFunction)
+
+  return lineFunction(props.data)
 }

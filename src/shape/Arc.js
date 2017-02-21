@@ -1,7 +1,7 @@
 import { arc as shapeArc } from 'd3-shape'
 import _ from 'lodash'
 
-let props = [
+let propNames = [
   'innerRadius',
   'outerRadius',
   'cornerRadius',
@@ -13,37 +13,27 @@ let props = [
 
 export default {
   name: 'VArc',
-  props: ['args', 'data', ...props],
-  data () {
-    return {
-      arc: {}
-    }
-  },
-  methods: {
-    getPath () {
-      let arcFunction = this.arc
-      props.forEach(p => {
-        if (!_.isUndefined(this[p]) && arcFunction[p]) {
-          arcFunction = arcFunction[p](this[p])
-        }
-      })
-      this.arc = arcFunction
-      return this.arc(this.data)
-    }
-  },
-  created () {
-    this.arc = shapeArc(this.args)
-  },
-  render (h) {
-    const attrs = this.$vnode.data.attrs || {}
-    const props = this.$vnode.data.props || {}
-    const path = this.getPath()
+  functional: true,
+  props: ['args', 'data', ...propNames],
+  render (h, context) {
+    const props = context.props
+    const data = context.data
+    const path = getPath(props)
     return (
       <path
-        {...attrs}
-        {...props}
-        d={ path }
+        {...data}
+        d={path}
       />
     )
   }
+}
+
+function getPath (props) {
+  let arcFunction = shapeArc()
+  propNames.forEach(p => {
+    if (!_.isUndefined(props[p]) && arcFunction[p]) {
+      arcFunction = arcFunction[p](props[p])
+    }
+  })
+  return arcFunction(props.data)
 }

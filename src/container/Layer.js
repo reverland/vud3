@@ -4,6 +4,12 @@ export default {
   render (h, context) {
     const children = context.children
     const data = context.data
-    return h('g', data, children)
+    return (
+      <g
+        {...data}
+      >
+        {children}
+      </g>
+    )
   }
 }

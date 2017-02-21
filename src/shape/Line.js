@@ -3,6 +3,7 @@ import { curveNames, getCurveFunction } from '../utils/curveFactory'
 
 export default {
   name: 'VLine',
+  functional: true,
   props: {
     curve: {
       type: String,
@@ -27,21 +28,15 @@ export default {
       required: false
     }
   },
-  methods: {
-    getPath () {
-      let curveFunction = getCurveFunction(this.curve, this.curveArgs)
-      let lineFunction = shapeLine().x(this.x).y(this.y).curve(curveFunction)
-      return lineFunction(this.data)
-    }
-  },
-  render (h) {
-    const attrs = this.$vnode.data.attrs || {}
-    const props = this.$vnode.data.props || {}
-    const path = this.getPath()
+  render (h, context) {
+    let props = context.props
+    let curveFunction = getCurveFunction(props.curve, props.curveArgs)
+    let lineFunction = shapeLine().x(props.x).y(props.y).curve(curveFunction)
+    const path = lineFunction(props.data)
+    const data = context.data
     return (
       <path
-        {...attrs}
-        {...props}
+        {...data}
         d={ path }
       />
     )
