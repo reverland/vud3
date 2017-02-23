@@ -7,7 +7,7 @@ export default {
       default: 0
     },
     height: {
-      default: 100
+      default: 0
     }
   },
   data () {
@@ -18,14 +18,11 @@ export default {
   },
   methods: {
     updateSize () {
-      if (parseInt(this.width) <= 0) {
-        const computedWidth = window.getComputedStyle(this.$refs.wrapper).width || 150
-        let width = parseInt(computedWidth)
-        this.realWidth = width
-      } else {
-        this.realWidth = this.width
-      }
-      this.$emit('resize', this.realWidth)
+      let width = parseFloat(this.width) > 0 ? parseFloat(this.width) : undefined
+      this.realWidth = width || parseFloat(window.getComputedStyle(this.$refs.wrapper).width)
+      let height = parseFloat(this.height) > 0 ? parseFloat(this.height) : undefined
+      this.realHeight = height || parseFloat(window.getComputedStyle(this.$refs.wrapper).height)
+      this.$emit('resize', this.realWidth, this.realHeight)
     }
   },
   mounted () {
@@ -41,8 +38,8 @@ export default {
       {ref: 'wrapper'},
       [(<svg
         width={this.realWidth}
-        height={this.height}
-        viewBox={`0 0 ${this.realWidth} ${this.height}`}
+        height={this.realHeight}
+        viewBox={`0 0 ${this.realWidth} ${this.realHeight}`}
         version="1.1"
         >
         { children }

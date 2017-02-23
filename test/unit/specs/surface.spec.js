@@ -23,32 +23,38 @@ describe('surface', () => {
       }
     })
 
+    let svg = vm.$el.querySelector('svg')
     vm.$nextTick(_ => {
-      expect(vm.$el.innerHTML)
-        .to.equal('<svg width="200" height="100" viewBox="0 0 200 100" version="1.1"><rect width="50" height="80" fill="yellow"></rect></svg>')
+      expect(svg.getAttribute('width'))
+        .to.equal('200')
+      expect(svg.getAttribute('height'))
+        .to.equal('100')
+      expect(svg.getAttribute('viewBox'))
+        .to.equal('0 0 200 100')
       done()
     })
   })
 
-  it('should listen to resize event when no width', (done) => {
-    // TODO: test for window.resize
+  it('should listen to resize event when no width or height', (done) => {
     vm = createVue({
       components: {
         Surface
       },
       data () {
         return {
-          width: 0
+          width: 0,
+          height: 0
         }
       },
       methods: {
-        resize (width) {
+        resize (width, height) {
           this.width = width
+          this.height = height
         }
       },
       render (h) {
         return (
-          <surface ref="wrapper" height={100} onResize={this.resize}>
+          <surface ref="wrapper" onResize={this.resize}>
             <rect width={50} height={80} fill={'yellow'}/>
           </surface>
         )
@@ -57,10 +63,16 @@ describe('surface', () => {
 
     let wrapper = vm.$refs.wrapper
     wrapper.$el.style.width = '600px'
+    wrapper.$el.style.height = '500px'
     triggerEvent(window, 'resize') // window.dispatchEvent(new window.Event('resize'));
     setTimeout(_ => {
-      expect(wrapper.$el.innerHTML)
-        .to.equal('<svg width="600" height="100" viewBox="0 0 600 100" version="1.1"><rect width="50" height="80" fill="yellow"></rect></svg>')
+      let svg = vm.$el.querySelector('svg')
+      expect(svg.getAttribute('width'))
+        .to.equal('600')
+      expect(svg.getAttribute('height'))
+        .to.equal('500')
+      expect(svg.getAttribute('viewBox'))
+        .to.equal('0 0 600 500')
       done()
     }, 300) // trigger some time later
   })
