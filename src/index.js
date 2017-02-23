@@ -30,7 +30,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   console.warn('you must use vue')
 }
 
-let version = '0.0.7'
+let version = '0.0.8'
 
 export {
   version,
