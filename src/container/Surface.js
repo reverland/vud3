@@ -19,9 +19,9 @@ export default {
   methods: {
     updateSize () {
       let width = parseFloat(this.width) > 0 ? parseFloat(this.width) : undefined
-      this.realWidth = width || parseFloat(window.getComputedStyle(this.$refs.wrapper).width)
+      this.realWidth = width || parseFloat(window.getComputedStyle(this.$refs.wrapper).width) || 300
       let height = parseFloat(this.height) > 0 ? parseFloat(this.height) : undefined
-      this.realHeight = height || parseFloat(window.getComputedStyle(this.$refs.wrapper).height)
+      this.realHeight = height || parseFloat(window.getComputedStyle(this.$refs.wrapper).height) || 150
       this.$emit('resize', this.realWidth, this.realHeight)
     }
   },
