@@ -1,11 +1,8 @@
-import VArc from 'src/shape/Arc'
 import { pie } from 'd3-shape'
 import _ from 'lodash'
+import { getArcFunction } from '../utils/getArcFunction'
 
-// why I not implement this component as functional component ?
-// for user have to register both pie and arc in the parent component for this compo to work.
-
-const propNames = [
+const piePropNames = [
   'value',
   'sort',
   'sortValues',
@@ -16,9 +13,6 @@ const propNames = [
 
 export default {
   name: 'vPie',
-  components: {
-    VArc
-  },
   props: {
     data: {
       required: true
@@ -32,6 +26,7 @@ export default {
     innerRadius: {},
     outerRadius: {},
     cornerRadius: {},
+    padRadius: {},
     colors: {},
     args: {}
   },
@@ -39,27 +34,15 @@ export default {
     let props = this  // black magic here
     const arcs = getData(props)
     const colors = props.colors
-    const {
-      innerRadius,
-      outerRadius,
-      cornerRadius,
-      args
-    } = props
-    const newProps = {
-      innerRadius,
-      outerRadius,
-      cornerRadius,
-      args
-    }
-
+    const arcFunction = getArcFunction(props)
     return (
       <layer>
         {
           arcs.map((d, i) => {
+            const path = arcFunction(d)
             return (
-              <v-arc
-                {...{props: newProps}}
-                data={d}
+              <path
+                d={path}
                 fill={_.isFunction(colors) ? colors(d, i) : colors[i]}
               />
             )
@@ -72,7 +55,7 @@ export default {
 
 function getData (props) {
   let pieFunction = pie()
-  propNames.forEach(p => {
+  piePropNames.forEach(p => {
     if (!_.isUndefined(props[p]) && pieFunction[p]) {
       pieFunction = pieFunction[p](props[p])
     }
