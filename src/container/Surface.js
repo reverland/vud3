@@ -13,7 +13,8 @@ export default {
   data () {
     return {
       optId: null,
-      realWidth: 0
+      realWidth: 0,
+      realHeight: 0
     }
   },
   methods: {
