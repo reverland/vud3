@@ -7,6 +7,8 @@ import Line from './shape/Line'
 import Area from './shape/Area'
 import Arc from './shape/Arc'
 import Pie from './shape/Pie'
+import RadialLine from './shape/RadialLine'
+import RadialArea from './shape/RadialArea'
 
 let components = [
   Surface,
@@ -14,7 +16,9 @@ let components = [
   Line,
   Area,
   Arc,
-  Pie
+  Pie,
+  RadialLine,
+  RadialArea
 ]
 
 let install = function (Vue) {
@@ -39,5 +43,7 @@ export {
   Line,
   Area,
   Arc,
-  Pie
+  Pie,
+  RadialLine,
+  RadialArea
 }

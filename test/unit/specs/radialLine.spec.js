@@ -1,74 +1,75 @@
-import VLine from 'src/shape/Line'
+import VRadialLine from 'src/shape/RadialLine'
 import { destroyVM, createVue } from '../utils'
+import { radialLine, curveCatmullRom } from 'd3-shape'
 
-describe('line', () => {
+describe('radialLine', () => {
   let vm
+  let data = [{x: 0, y: 30}, {x: 20, y: 10}, {x: 50, y: 40}]
 
   afterEach(() => {
     vm.$destroy()
     destroyVM(vm)
   })
 
-  it('can generate a line', () => {
-    let data = [{x: 0, y: 2}, {x: 20, y: 10}, {x: 50, y: 40}]
+  it('can generate a radial line', () => {
     vm = createVue({
       components: {
-        VLine
+        VRadialLine
       },
       render (h) {
         return (
           <div>
             <svg>
-              <v-line
-                x={p => p.x}
-                y={p => p.y}
+              <v-radial-line
+                angle={p => p.x}
+                radius={p => p.y}
                 data={data}/>
             </svg>
           </div>
         )
       }
     })
-    expect(vm.$el.innerHTML)
-      .to.equal('<svg><path d="M0,2L20,10L50,40"></path></svg>')
+    expect(vm.$el.querySelector('path').getAttribute('d'))
+      .to.equal(radialLine().angle(p => p.x).radius(p => p.y)(data))
   })
 
   it('can accept defined', () => {
-    let data = [{x: 0, y: 2}, {x: 20, y: 10}, {x: 50, y: 40}]
     vm = createVue({
       components: {
-        VLine
+        VRadialLine
       },
       render (h) {
         return (
           <div>
             <svg>
-              <v-line
-                x={p => p.x}
-                y={p => p.y}
+              <v-radial-line
+                angle={p => p.x}
+                radius={p => p.y}
                 data={data}
-                defined={p => p.y > 2}/>
+                defined={p => p.y > 10}/>
             </svg>
           </div>
         )
       }
     })
-    expect(vm.$el.innerHTML)
-      .to.equal('<svg><path d="M20,10L50,40"></path></svg>')
+
+    expect(vm.$el.querySelector('path').getAttribute('d'))
+      .to.equal(radialLine().angle(p => p.x).radius(p => p.y).defined(p => p.y > 10)(data))
   })
 
   it('can accept curve name and optional curve args', () => {
     let data = [{x: 0, y: 2}, {x: 20, y: 10}, {x: 50, y: 40}]
     vm = createVue({
       components: {
-        VLine
+        VRadialLine
       },
       render (h) {
         return (
           <div>
             <svg>
-              <v-line
-                x={p => p.x}
-                y={p => p.y}
+              <v-radial-line
+                angle={p => p.x}
+                radius={p => p.y}
                 curve={'catmullRom'}
                 curveArgs={{alpha: 3}}
                 data={data}/>
@@ -78,22 +79,22 @@ describe('line', () => {
       }
     })
     expect(vm.$el.querySelector('path').getAttribute('d'))
-      .to.equal('M0,2C0,2,13.953410040771484,7.49048330022003,20,10C66.20003508581078,29.1744041451515,50,40,50,40')
+      .to.equal(radialLine().angle(p => p.x).radius(p => p.y).curve(curveCatmullRom.alpha(3))(data))
   })
 
   it('can accept other attribute', () => {
     let data = [{x: 0, y: 2}, {x: 20, y: 10}, {x: 50, y: 40}]
     vm = createVue({
       components: {
-        VLine
+        VRadialLine
       },
       render (h) {
         return (
           <div>
             <svg>
-              <v-line
-                x={p => p.x}
-                y={p => p.y}
+              <v-radial-line
+                angle={p => p.x}
+                radius={p => p.y}
                 fill="none"
                 stroke={'blue'}
                 data={data}/>
@@ -103,7 +104,7 @@ describe('line', () => {
       }
     })
     expect(vm.$el.querySelector('path').getAttribute('d'))
-      .to.equal('M0,2L20,10L50,40')
+      .to.equal(radialLine().angle(p => p.x).radius(p => p.y)(data))
     expect(vm.$el.querySelector('path').getAttribute('stroke'))
       .to.equal('blue')
   })

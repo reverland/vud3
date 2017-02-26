@@ -1,9 +1,9 @@
 import _ from 'lodash'
-import { area as shapeArea } from 'd3-shape'
+import { radialLine } from 'd3-shape'
 import { curveNames, getCurveFunction } from '../utils/curveFactory'
 
 export default {
-  name: 'VArea',
+  name: 'VRadialLine',
   functional: true,
   props: {
     curve: {
@@ -13,12 +13,8 @@ export default {
         return curveNames.indexOf(value) >= 0
       }
     },
-    x: {},
-    x0: {},
-    x1: {},
-    y: {},
-    y0: {},
-    y1: {},
+    angle: {},
+    radius: {},
     data: {
       type: Array,
       required: true
@@ -27,9 +23,10 @@ export default {
     defined: {}
   },
   render (h, context) {
-    let props = context.props || {}
+    let props = context.props
+    let lineFunction = getLineFunction(props)
+    const path = lineFunction(props.data)
     const data = context.data
-    const path = getPath(props)
     return (
       <path
         {...data}
@@ -39,16 +36,15 @@ export default {
   }
 }
 
-function getPath (props) {
-  let lineFunction = shapeArea()
+function getLineFunction (props) {
+  let lineFunction = radialLine()
   let curveFunction = getCurveFunction(props.curve, props.curveArgs)
-
-  let fNames = ['x', 'x0', 'x1', 'y', 'y0', 'y1', 'defined']
-  fNames.filter(fName => _.isFunction(props[fName])).forEach(fName => {
-    lineFunction = lineFunction[fName](props[fName])
+  let linePropNames = ['angle', 'radius', 'defined']
+  linePropNames.forEach(p => {
+    if (!_.isUndefined(props[p]) && lineFunction[p]) {
+      lineFunction = lineFunction[p](props[p])
+    }
   })
-
-  lineFunction.curve(curveFunction)
-
-  return lineFunction(props.data)
+  lineFunction = lineFunction.curve(curveFunction)
+  return lineFunction
 }

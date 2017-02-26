@@ -1,9 +1,9 @@
 import _ from 'lodash'
-import { area as shapeArea } from 'd3-shape'
+import { radialArea } from 'd3-shape'
 import { curveNames, getCurveFunction } from '../utils/curveFactory'
 
 export default {
-  name: 'VArea',
+  name: 'VRadialArea',
   functional: true,
   props: {
     curve: {
@@ -13,12 +13,12 @@ export default {
         return curveNames.indexOf(value) >= 0
       }
     },
-    x: {},
-    x0: {},
-    x1: {},
-    y: {},
-    y0: {},
-    y1: {},
+    angle: {},
+    startAngle: {},
+    endAngle: {},
+    radius: {},
+    innerRadius: {},
+    outerRadius: {},
     data: {
       type: Array,
       required: true
@@ -40,10 +40,10 @@ export default {
 }
 
 function getPath (props) {
-  let lineFunction = shapeArea()
+  let lineFunction = radialArea()
   let curveFunction = getCurveFunction(props.curve, props.curveArgs)
 
-  let fNames = ['x', 'x0', 'x1', 'y', 'y0', 'y1', 'defined']
+  let fNames = ['angle', 'startAngle', 'endAngle', 'radius', 'innerRadius', 'outerRadius', 'defined']
   fNames.filter(fName => _.isFunction(props[fName])).forEach(fName => {
     lineFunction = lineFunction[fName](props[fName])
   })

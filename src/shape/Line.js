@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { line as shapeLine } from 'd3-shape'
 import { curveNames, getCurveFunction } from '../utils/curveFactory'
 
@@ -12,26 +13,18 @@ export default {
         return curveNames.indexOf(value) >= 0
       }
     },
-    x: {
-      type: Function,
-      default: p => p.x
-    },
-    y: {
-      type: Function,
-      default: p => p.y
-    },
+    x: {},
+    y: {},
     data: {
       type: Array,
       required: true
     },
-    curveArgs: {
-      required: false
-    }
+    curveArgs: {},
+    defined: {}
   },
   render (h, context) {
     let props = context.props
-    let curveFunction = getCurveFunction(props.curve, props.curveArgs)
-    let lineFunction = shapeLine().x(props.x).y(props.y).curve(curveFunction)
+    let lineFunction = getLineFunction(props)
     const path = lineFunction(props.data)
     const data = context.data
     return (
@@ -41,4 +34,17 @@ export default {
       />
     )
   }
+}
+
+function getLineFunction (props) {
+  let lineFunction = shapeLine()
+  let curveFunction = getCurveFunction(props.curve, props.curveArgs)
+  let linePropNames = ['x', 'y', 'defined']
+  linePropNames.forEach(p => {
+    if (!_.isUndefined(props[p]) && lineFunction[p]) {
+      lineFunction = lineFunction[p](props[p])
+    }
+  })
+  lineFunction = lineFunction.curve(curveFunction)
+  return lineFunction
 }
