@@ -1,7 +1,7 @@
 {
   "name": "vud3",
   "description": "writing declarative d3 components in vue.js",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "Yuyang Liu <sa@linuxer.me>",
   "repository": {
     "type": "git",
