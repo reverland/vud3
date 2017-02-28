@@ -22,10 +22,10 @@ export default {
           <v-line
             fill="none"
             stroke="blue"
-            curve={'catmullRom'}
             x={p => p.x}
             y={p => p.y}
-            curveArgs={{alpha: 0.3}}
+            curve={'catmullRom'}
+            curveArgs={ {alpha: 3} }
             data={data}/>
         </layer>
       </surface>

@@ -39,9 +39,6 @@ export default {
       this.width = width
     }
   },
-  destroyed () {
-
-  },
   render (h) {
     return (
       <surface
