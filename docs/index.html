@@ -34,7 +34,7 @@ window.$docsify = {
         var lang = lang || ''
         if (lang === 'jsx' && /^\/\*\s*vuep\s*\*\//.test(code)) {
           id++
-          return '<vuep template="#vuep-' + id + '" :options="{ mode: \'jsx\' }"></vuep><script type="text/x-template" id="vuep-' + id + '">' + code + '</scr' + 'ipt>'
+          return '<vuep template="#vuep-' + id + '" :options="{ mode: \'jsx\' }"></vuep><script v-pre type="text/x-template" id="vuep-' + id + '">' + code + '</scr' + 'ipt>'
         } else {
           var hl = Prism.highlight(code, Prism.languages[lang] || Prism.languages.markup)
           return '<pre v-pre data-lang="' + lang + '"><code class="lang-' + lang + '">' + hl + '</code></pre>'
