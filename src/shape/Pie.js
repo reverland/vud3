@@ -36,7 +36,7 @@ export default {
     const colors = props.colors
     const arcFunction = getArcFunction(props)
     return (
-      <layer>
+      <g>
         {
           arcs.map((d, i) => {
             const path = arcFunction(d)
@@ -48,7 +48,7 @@ export default {
             )
           })
         }
-      </layer>
+      </g>
     )
   }
 }
