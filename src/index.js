@@ -34,7 +34,7 @@ if (typeof window !== 'undefined' && window.Vue) {
   console.warn('you must use vue')
 }
 
-let version = '0.0.10'
+let version = '0.0.11'
 
 export {
   version,
