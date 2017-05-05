@@ -30,8 +30,6 @@ let install = function (Vue) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
   console.log('vud3 installed succesfully!')
-} else {
-  console.warn('you must use vue')
 }
 
 let version = '0.0.11'
